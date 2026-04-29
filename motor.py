@@ -294,6 +294,9 @@ _servo = None
 _last_update_time = 0.0
 _servo_hold_mode = False
 
+# Safety interlock: when True, motor commands are blocked until cleared.
+_safety_engaged = False
+
 def _init_hardware():
     global _hardware, _motor, _servo
     if _hardware is None:
@@ -308,36 +311,81 @@ def _init_hardware():
 
 
 def set_speed(value):
+    # Block speed commands when safety interlock is engaged
+    if globals().get('_safety_engaged', False):
+        try:
+            print("[MOTOR] set_speed blocked by safety")
+        except Exception:
+            pass
+        return
     if _init_hardware():
         _motor.set_speed(value)
 
 
 def update_speed():
+    # No speed updates while safety interlock is active
+    if globals().get('_safety_engaged', False):
+        return
     if _init_hardware():
         _motor.update_speed()
 
 
 def set_motor_speed(left_speed, right_speed):
+    # Block direct motor commands when safety is engaged
+    if globals().get('_safety_engaged', False):
+        try:
+            print("[MOTOR] set_motor_speed blocked by safety")
+        except Exception:
+            pass
+        return
     if _init_hardware():
         _motor.set_motor_speed(left_speed, right_speed)
 
 
 def forward():
+    # Respect safety interlock
+    if globals().get('_safety_engaged', False):
+        try:
+            print("[MOTOR] forward() blocked by safety")
+        except Exception:
+            pass
+        return
     if _init_hardware():
         _motor.forward()
 
 
 def backward():
+    # Respect safety interlock
+    if globals().get('_safety_engaged', False):
+        try:
+            print("[MOTOR] backward() blocked by safety")
+        except Exception:
+            pass
+        return
     if _init_hardware():
         _motor.backward()
 
 
 def left():
+    # Respect safety interlock
+    if globals().get('_safety_engaged', False):
+        try:
+            print("[MOTOR] left() blocked by safety")
+        except Exception:
+            pass
+        return
     if _init_hardware():
         _motor.left()
 
 
 def right():
+    # Respect safety interlock
+    if globals().get('_safety_engaged', False):
+        try:
+            print("[MOTOR] right() blocked by safety")
+        except Exception:
+            pass
+        return
     if _init_hardware():
         _motor.right()
 
@@ -348,8 +396,45 @@ def stop():
 
 
 def hard_stop():
+    # Engage safety interlock and perform immediate hardware hard stop.
+    global _safety_engaged
+    _safety_engaged = True
     if _init_hardware():
-        _motor.hard_stop()
+        try:
+            _motor.hard_stop()
+        except Exception:
+            pass
+    try:
+        print("[MOTOR] HARD STOP engaged")
+    except Exception:
+        pass
+
+
+def engage_safety():
+    """Programmatic API to engage motor safety (blocks future motor commands)."""
+    global _safety_engaged
+    _safety_engaged = True
+    if _init_hardware():
+        try:
+            _motor.hard_stop()
+        except Exception:
+            pass
+    try:
+        print("[MOTOR] Safety engaged")
+    except Exception:
+        pass
+    return {'safety': True}
+
+
+def clear_safety():
+    """Clear safety interlock (allow motor commands)."""
+    global _safety_engaged
+    _safety_engaged = False
+    try:
+        print("[MOTOR] Safety cleared")
+    except Exception:
+        pass
+    return {'safety': False}
 
 
 def set_servo_angle(angle):

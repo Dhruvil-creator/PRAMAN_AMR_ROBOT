@@ -28,6 +28,14 @@ class EventManager:
         # Stop and drop marker (servo) if hardware available; otherwise just mark hazard
         try:
             self.grid.set_hazard(gx, gy)
+            if self.motor:
+                try:
+                    if getattr(self.motor, 'hard_stop', None):
+                        self.motor.hard_stop()
+                    elif getattr(self.motor, 'stop', None):
+                        self.motor.stop()
+                except Exception:
+                    pass
             if servo_action and self.motor and getattr(self.motor, 'pulse_servo', None):
                 # run servo pulse in background (matches test_servo timing)
                 threading.Thread(target=lambda: self.motor.pulse_servo(servo_angle, duration=0.2), daemon=True).start()

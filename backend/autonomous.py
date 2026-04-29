@@ -45,6 +45,10 @@ class AutonomousModeManager:
 
         # Servo / hazard
         self.servo_enabled = True
+        # Conservative localization mode: when True the motion controller will avoid
+        # writing optimistic grid updates; the controller will only snap grid when
+        # localization appears valid.
+        self.conservative_localization = False
 
         # Path state
         self.current_path: List[Tuple[int, int]] = []
@@ -90,6 +94,13 @@ class AutonomousModeManager:
         except Exception:
             pass
         self._controller.servo_enabled = bool(self.servo_enabled)
+        # propagate conservative localization flag
+        try:
+            self._controller.conservative_localization = bool(self.conservative_localization)
+            if getattr(self._controller, 'motion', None):
+                self._controller.motion.conservative_localization = bool(self.conservative_localization)
+        except Exception:
+            pass
 
     # -------------------------
     # Public API (compatibility)

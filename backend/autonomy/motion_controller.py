@@ -49,6 +49,11 @@ class MotionController:
 
         self.heading_pid = PIDController(kp=1.0, ki=0.0, kd=0.05, out_min=-30, out_max=30)
         self.abort_check = None
+        # Conservative localization: when True, only maintain a predicted local pose and do
+        # not write robot pose/visited cells to the main grid. Controller will snap the grid
+        # when localization is confirmed.
+        self.conservative_localization = False
+        self._predicted_world: Optional[Tuple[float, float]] = None
 
     def _should_abort(self) -> bool:
         try:
@@ -127,18 +132,44 @@ class MotionController:
     def move_to_waypoint(self, grid_manager, target_gx: int, target_gy: int, step_m: float = 0.05, speed: int = 60, drive_time: Optional[float] = None) -> bool:
         """Step towards a grid waypoint. In simulation (default) this simply updates the grid_manager.robot_world.
         Returns True when waypoint reached.
+
+        Safety note: when running on hardware we MUST NOT optimistically update the grid when a
+        safety interlock has been engaged or when a movement was aborted. In conservative_localization
+        mode the controller maintains a predicted pose and suppresses grid writes until a snap.
         """
         tx, ty = grid_manager.grid_to_world(target_gx, target_gy)
-        cx, cy = grid_manager.robot_world
+        # current position: prefer predicted pose in conservative mode
+        if self.conservative_localization and self._predicted_world is not None:
+            cx, cy = self._predicted_world
+        else:
+            cx, cy = grid_manager.robot_world
         dx = tx - cx
         dy = ty - cy
         dist = math.hypot(dx, dy)
+
+        # If we are within a step, only snap to the target when not blocked by safety.
         if dist <= step_m:
+            if self.use_hardware and self.motor is not None and getattr(self.motor, '_safety_engaged', False):
+                try:
+                    print('[MOTION] reached-check blocked by safety; not snapping to grid')
+                except Exception:
+                    pass
+                self.stop()
+                return False
+
+            # If conservative, update predicted pose but don't write to the grid.
+            if self.conservative_localization:
+                self._predicted_world = (tx, ty)
+                if self.use_hardware and self.motor is not None:
+                    self.stop()
+                return True
+
             grid_manager.set_robot_position(tx, ty)
             grid_manager.set_visited(target_gx, target_gy)
             if self.use_hardware and self.motor is not None:
                 self.stop()
             return True
+
         nx = cx + (dx / dist) * step_m
         ny = cy + (dy / dist) * step_m
 
@@ -159,7 +190,26 @@ class MotionController:
             except Exception:
                 pass
 
+        # If safety interlock was engaged while the motor was running, suppress grid updates.
+        if self.use_hardware and self.motor is not None and getattr(self.motor, '_safety_engaged', False):
+            try:
+                print('[MOTION] movement aborted due to safety; grid update suppressed')
+            except Exception:
+                pass
+            self.stop()
+            return False
+
+        # Conservative mode: update only predicted pose.
+        if self.conservative_localization:
+            self._predicted_world = (nx, ny)
+            return False
+
+        # Update grid only when the movement was not interrupted.
         grid_manager.set_robot_position(nx, ny)
         gx, gy = grid_manager.world_to_grid(nx, ny)
         grid_manager.set_visited(gx, gy)
         return False
+
+    def get_predicted_world(self) -> Optional[Tuple[float, float]]:
+        """Return predicted world coordinates when in conservative mode, else None."""
+        return self._predicted_world

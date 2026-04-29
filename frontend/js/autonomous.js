@@ -705,9 +705,11 @@ function planPath() {
         .then(data => {
             if (data.status === 'success') {
                 autonomousGrid.setPath(data.path, data.visited_cells);
-                document.getElementById('pathLength').textContent = data.stats.path_length;
-                document.getElementById('nodesVisited').textContent = data.stats.nodes_expanded;
-                statusEl.textContent = `Status: Path found (${data.stats.path_length} waypoints)`;
+                const pathLength = data?.stats?.path_length ?? data?.stats?.length ?? (Array.isArray(data.path) ? data.path.length : 0);
+                const nodesExpanded = data?.stats?.nodes_expanded ?? '-';
+                document.getElementById('pathLength').textContent = pathLength;
+                document.getElementById('nodesVisited').textContent = nodesExpanded;
+                statusEl.textContent = `Status: Path found (${pathLength} waypoints)`;
             } else {
                 statusEl.textContent = `Status: ${data.status || 'Failed'}`;
             }

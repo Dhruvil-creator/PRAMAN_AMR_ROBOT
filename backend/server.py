@@ -276,45 +276,58 @@ def autonomous_safety_loop():
             invalid = False
             unsafe = False
             values = []
+            prev_center = safety_prev_ultra.get('center')
 
             for key in ('center', 'left', 'right'):
                 raw = raw_ultra.get(key)
                 if not isinstance(raw, (int, float)):
-                    invalid = True
-                    reasons.append(f'{key}_missing')
                     continue
-
                 val = float(raw)
                 values.append(val)
-                prev = safety_prev_ultra.get(key)
-
-                if val <= 0:
-                    invalid = True
-                    reasons.append(f'{key}_invalid')
-                if val > 400:
-                    invalid = True
-                    reasons.append(f'{key}_over_max')
-                if val < 5:
-                    unsafe = True
-                    reasons.append(f'{key}_too_close')
-
-                if prev is not None:
-                    if abs(val - prev) > 120:
-                        invalid = True
-                        reasons.append(f'{key}_jump')
-                    if prev <= 25 and val >= 400:
-                        invalid = True
-                        unsafe = True
-                        reasons.append(f'{key}_max_spike')
-
                 safety_prev_ultra[key] = val
 
-            nearest = min(values) if values else None
-            if nearest is not None and nearest <= 25:
+            center = raw_ultra.get('center')
+            center = float(center) if isinstance(center, (int, float)) else None
+            if center is not None and 0 < center <= 25:
                 safety_last_near_ts = now
-            if nearest is not None and nearest <= 20:
+
+            valid_vals = [v for v in values if 0 < v <= 400]
+            nearest = min(valid_vals) if valid_vals else None
+
+            if center is None:
+                invalid = True
+                reasons.append('center_missing')
+            elif center <= 0:
+                invalid = True
+                reasons.append('center_invalid')
+            elif center > 400:
+                invalid = True
+                reasons.append('center_over_max')
+
+            if center is not None and center < 5:
+                unsafe = True
+                reasons.append('center_too_close')
+            if center is not None and 0 < center <= 20:
                 unsafe = True
                 reasons.append('stop_distance')
+
+            if (
+                center is not None
+                and prev_center is not None
+                and abs(center - prev_center) > 120
+                and prev_center <= 25
+            ):
+                invalid = True
+                reasons.append('center_jump')
+            if (
+                center is not None
+                and prev_center is not None
+                and center >= 400
+                and prev_center <= 25
+            ):
+                invalid = True
+                unsafe = True
+                reasons.append('center_max_spike')
 
             if invalid and (now - safety_last_near_ts) <= 1.0:
                 unsafe = True
@@ -356,6 +369,99 @@ def autonomous_safety_loop():
             print(f"[SAFETY-GUARD] loop error: {e}")
 
         time.sleep(0.03)
+
+
+# -------------------------------
+# BASIC OBSTACLE GUARD
+# -------------------------------
+
+
+def basic_obstacle_guard_loop():
+    """Simple obstacle guard: read front ultrasonic continuously and hard-stop on detection.
+
+    Rules (minimal):
+    - If center <= 25 cm -> immediate stop
+    - If center <= 5 cm -> immediate emergency stop
+    - If previous center < 20 cm and current reading is an invalid spike (0 or very large)
+      treat as obstacle and stop
+
+    This loop enforces a motor.hard_stop() to override any other commands and blocks
+    further motor commands via the safety interlock.
+    """
+    global current_command
+    prev_center = None
+    last_safe_print = 0.0
+    SAFE_PRINT_INTERVAL = 0.5
+    STOP_DISTANCE = 25.0
+    EMERGENCY_DISTANCE = 5.0
+    PREV_SMALL_THRESHOLD = 20.0
+    MAX_SPIKE = 400.0
+    MAX_DEFAULT = 999.0
+
+    while True:
+        try:
+            payload = get_system_data()
+            ultra_raw = payload.get('ultrasonic_raw') or payload.get('ultrasonic') or {}
+            center = ultra_raw.get('center')
+            center_val = None
+            if isinstance(center, (int, float)):
+                center_val = float(center)
+
+            obstacle = False
+            reason = None
+
+            # Immediate emergency
+            if center_val is not None and center_val <= EMERGENCY_DISTANCE:
+                obstacle = True
+                reason = 'center_too_close'
+
+            # Normal stop threshold
+            elif center_val is not None and center_val <= STOP_DISTANCE:
+                obstacle = True
+                reason = 'within_stop_distance'
+
+            else:
+                # Spike detection following a recent near reading
+                if prev_center is not None and prev_center < PREV_SMALL_THRESHOLD:
+                    if center is None or (isinstance(center, (int, float)) and (center_val == 0.0 or center_val >= MAX_SPIKE or center_val >= MAX_DEFAULT)):
+                        obstacle = True
+                        reason = 'spike_after_near'
+
+            now = time.time()
+
+            if obstacle:
+                try:
+                    print(f"[OBSTACLE-GUARD] center={center} prev={prev_center} -> OBSTACLE DETECTED ({reason}) -> STOP")
+                except Exception:
+                    pass
+                # enforce immediate hard stop and block further motor commands
+                try:
+                    if getattr(motor, 'hard_stop', None):
+                        motor.hard_stop()
+                    else:
+                        motor.stop()
+                except Exception:
+                    pass
+                # also set global command to stop for coherence with manual loop
+                try:
+                    current_command = 'stop'
+                except Exception:
+                    pass
+            else:
+                if now - last_safe_print >= SAFE_PRINT_INTERVAL:
+                    try:
+                        print(f"[OBSTACLE-GUARD] center={center_val} prev={prev_center} status=SAFE")
+                    except Exception:
+                        pass
+                    last_safe_print = now
+
+            prev_center = center_val
+        except Exception as e:
+            try:
+                print(f"[OBSTACLE-GUARD] loop error: {e}")
+            except Exception:
+                pass
+        time.sleep(0.05)
 
 
 # -------------------------------
@@ -410,6 +516,8 @@ def initialize_system():
     threading.Thread(target=speed_loop, daemon=True).start()
     threading.Thread(target=command_loop, daemon=True).start()
     threading.Thread(target=autonomous_safety_loop, daemon=True).start()
+    # Start the minimal basic obstacle guard loop (always-on safety)
+    threading.Thread(target=basic_obstacle_guard_loop, daemon=True).start()
 
     # Start motor watchdog (non-critical)
     try:
@@ -781,14 +889,42 @@ def execute_path():
         print(f"[AUTONOMY] Execute failed: {err}")
         return {'error': err}, 500
 
+    # If already executing but paused, treat Execute as Resume for better UX.
+    try:
+        st = autonomous_manager.get_status()
+        if st.get('status') == 'paused':
+            resumed = autonomous_manager.resume_autonomous()
+            if isinstance(resumed, dict) and resumed.get('error'):
+                return {'error': resumed.get('error')}, 400
+            return {'status': 'executing', 'resumed': True}
+        if st.get('status') == 'executing':
+            running_path = st.get('path') or []
+            requested_path = [[int(p[0]), int(p[1])] for p in autonomous_path]
+            # If user replanned while running, restart on the newly planned path
+            if running_path != requested_path:
+                autonomous_manager.stop_autonomous_execution()
+                time.sleep(0.05)
+            else:
+                return {'status': 'executing', 'already_running': True}
+    except Exception:
+        pass
+
     # Start autonomous execution with sensor integration
     result = autonomous_manager.start_autonomous_execution(autonomous_path)
     if isinstance(result, dict) and result.get('error'):
         err = result.get('error')
-        print(f"[AUTONOMY] Execute failed: {err}")
         # More specific status for common conflict
         if 'Already executing' in err or 'already executing' in err.lower():
-            return {'error': err}, 409
+            # Return current state so frontend can switch to Resume flow instead of error spam
+            try:
+                st = autonomous_manager.get_status()
+                return {
+                    'status': st.get('status', 'executing'),
+                    'paused': bool(st.get('paused', False)),
+                    'pause_reason': st.get('pause_reason')
+                }, 200
+            except Exception:
+                return {'error': err}, 409
         return {'error': err}, 400
 
     print(f"[AUTONOMY] Execution started: path_length={len(autonomous_path)}")
@@ -917,6 +1053,7 @@ def autonomous_params():
             'metal_drop_pause': getattr(autonomous_manager, 'metal_drop_pause', 1.5),
             'metal_drop_cooldown': getattr(autonomous_manager, 'metal_drop_cooldown', 3.0),
             'alignment_threshold_deg': getattr(autonomous_manager, 'alignment_threshold_deg', 8.0),
+            'conservative_localization': getattr(autonomous_manager, 'conservative_localization', False),
             'heading_pid': {
                 'kp': getattr(autonomous_manager, 'heading_pid_kp', 1.0),
                 'ki': getattr(autonomous_manager, 'heading_pid_ki', 0.0),
@@ -939,6 +1076,13 @@ def autonomous_params():
             autonomous_manager.metal_drop_cooldown = float(data['metal_drop_cooldown'])
         if 'alignment_threshold_deg' in data:
             autonomous_manager.alignment_threshold_deg = float(data['alignment_threshold_deg'])
+        if 'conservative_localization' in data:
+            try:
+                autonomous_manager.conservative_localization = bool(data['conservative_localization'])
+                if hasattr(autonomous_manager, '_sync_controller_params'):
+                    autonomous_manager._sync_controller_params()
+            except Exception:
+                pass
         if 'heading_pid' in data:
             hp = data['heading_pid'] or {}
             autonomous_manager.heading_pid_kp = float(hp.get('kp', autonomous_manager.heading_pid_kp))

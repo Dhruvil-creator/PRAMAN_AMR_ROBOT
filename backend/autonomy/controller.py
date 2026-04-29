@@ -26,7 +26,13 @@ class AutonomousController:
         self.grid = GridManager()
         self.sensors = SensorManager()
         self.planner = PathPlanner(self.grid)
+        self.conservative_localization = False
         self.motion = MotionController(use_hardware=self.use_hardware)
+        # Propagate conservative flag to the motion controller
+        try:
+            self.motion.conservative_localization = bool(self.conservative_localization)
+        except Exception:
+            pass
         self.motion.abort_check = lambda: (
             self._safety_hold
             or self.paused
@@ -69,6 +75,8 @@ class AutonomousController:
         self.servo_enabled = True
         self._last_metal_ts = 0.0
         self._last_metal_state = False
+        self._metal_high_count = 0
+        self.metal_confirm_reads = 1
         self.obstacle_confirm_reads = 3
         self._ultra_breach_count = 0
         self.obstacle_trigger_distance = 25.0
@@ -133,7 +141,8 @@ class AutonomousController:
         self.event_log_limit = 120
         self.speed_mps_max = 0.15
         self.min_step_m = 0.005
-        self.min_drive_time = 0.15
+        # Reduce min drive time for safety to allow frequent abort checks
+        self.min_drive_time = 0.05
 
     def start(self):
         # start sensors
@@ -343,9 +352,44 @@ class AutonomousController:
         now = time.time()
         if not force and (now - self._last_snap_ts) < self.localization_snap_interval:
             return
-        gx, gy = self.grid.robot_grid
-        x_m, y_m = self.grid.grid_to_world(gx, gy)
-        self.grid.set_robot_position(x_m, y_m)
+
+        # Conservative mode: require a valid center ultrasonic (or a forced snap) to accept
+        # the motion controller's predicted pose. This prevents optimistic grid updates when
+        # ultrasonic sensors are unreliable.
+        if getattr(self, 'conservative_localization', False):
+            try:
+                snapshot = self.sensors.get_snapshot()
+                ultra_raw = snapshot.get('ultrasonic_raw') or snapshot.get('ultrasonic') or {}
+                center = ultra_raw.get('center')
+                center_valid = isinstance(center, (int, float)) and 0 < center <= self.ultrasonic_max_cm
+                if not center_valid and not force:
+                    self._log_event('snap_suppressed', {'reason': 'unsafe_ultra', 'center': center})
+                    return
+
+                # Prefer motion controller's predicted world when available
+                pred = None
+                if getattr(self.motion, 'get_predicted_world', None):
+                    try:
+                        pred = self.motion.get_predicted_world()
+                    except Exception:
+                        pred = None
+                if pred:
+                    x_m, y_m = pred
+                else:
+                    gx, gy = self.grid.robot_grid
+                    x_m, y_m = self.grid.grid_to_world(gx, gy)
+
+                self.grid.set_robot_position(x_m, y_m)
+            except Exception:
+                # fallback to default snap behavior
+                gx, gy = self.grid.robot_grid
+                x_m, y_m = self.grid.grid_to_world(gx, gy)
+                self.grid.set_robot_position(x_m, y_m)
+        else:
+            gx, gy = self.grid.robot_grid
+            x_m, y_m = self.grid.grid_to_world(gx, gy)
+            self.grid.set_robot_position(x_m, y_m)
+
         self._last_snap_ts = now
         self.localization_corrections += 1
         self._log_obstacle(f'Localization snap: {reason}')
@@ -361,6 +405,20 @@ class AutonomousController:
             return gx, gy
         step_x = 0 if dx == 0 else (1 if dx > 0 else -1)
         step_y = 0 if dy == 0 else (1 if dy > 0 else -1)
+        return gx + step_x, gy + step_y
+
+    def _estimate_side_cell(self, gx: int, gy: int, target: Optional[Tuple[int, int]], side: str) -> Tuple[int, int]:
+        if target:
+            dx = target[0] - gx
+            dy = target[1] - gy
+        else:
+            dx, dy = 1, 0
+        step_x = 0 if dx == 0 else (1 if dx > 0 else -1)
+        step_y = 0 if dy == 0 else (1 if dy > 0 else -1)
+        if side == 'left':
+            return gx - step_y, gy + step_x
+        if side == 'right':
+            return gx + step_y, gy - step_x
         return gx + step_x, gy + step_y
 
     def _compute_speed(self, nearest_cm: Optional[float]) -> float:
@@ -451,6 +509,13 @@ class AutonomousController:
         if self.state == 'paused':
             self.state = 'executing'
         self.paused = False
+        # Clear motor safety interlock so hardware commands can resume
+        if self.use_hardware and motor is not None:
+            try:
+                motor.clear_safety()
+            except Exception:
+                pass
+        self._pause_event.set()
 
     def _update_ultrasonic_state(self, ultrasonic: dict):
         readings = {}
@@ -462,68 +527,75 @@ class AutonomousController:
         for key in ('center', 'left', 'right'):
             raw = ultrasonic.get(key) if isinstance(ultrasonic, dict) else None
             if not isinstance(raw, (int, float)):
-                invalid = True
                 reasons.append(f'{key}_missing')
                 continue
             val = float(raw)
             readings[key] = val
-            prev = self._ultra_prev.get(key)
 
-            if val <= 0:
-                invalid = True
-                reasons.append(f'{key}_invalid')
-            if val > self.ultrasonic_max_cm:
-                invalid = True
-                reasons.append(f'{key}_over_max')
-            if val < self.ultrasonic_emergency_cm:
-                unsafe = True
-                reasons.append(f'{key}_too_close')
-            if val >= self.ultrasonic_max_cm:
-                if prev is not None and prev <= self.obstacle_trigger_distance:
-                    invalid = True
-                    reasons.append(f'{key}_max_spike')
-            if prev is not None:
-                if abs(val - prev) > self.ultrasonic_jump_threshold:
-                    invalid = True
-                    reasons.append(f'{key}_jump')
-                if (prev - val) > self.ultrasonic_drop_threshold:
-                    unsafe = True
-                    reasons.append(f'{key}_drop')
+        center = readings.get('center')
+        prev_center = self._ultra_prev.get('center')
+        valid_channels = {
+            k: v for k, v in readings.items()
+            if isinstance(v, (int, float)) and 0 < v <= self.ultrasonic_max_cm
+        }
+        nearest = None
+        nearest_source = None
+        if valid_channels:
+            nearest_source = min(valid_channels, key=valid_channels.get)
+            nearest = valid_channels[nearest_source]
 
-        valid_vals = [v for v in readings.values() if isinstance(v, (int, float))]
-        nearest = min(valid_vals) if valid_vals else None
+        if center is not None and 0 < center <= self.ultrasonic_max_cm and center <= self.obstacle_trigger_distance:
+            self._ultra_last_valid_nearest = center
+            self._ultra_last_valid_ts = now
 
-        if valid_vals:
-            max_val = max(valid_vals)
-            min_val = min(valid_vals)
-            if max_val >= self.ultrasonic_max_cm and min_val <= self.obstacle_trigger_distance:
-                invalid = True
-                reasons.append('sensor_inconsistent')
-        else:
+        if center is None:
             invalid = True
-            reasons.append('no_valid_reading')
+            reasons.append('center_missing')
+        elif center <= 0:
+            invalid = True
+            reasons.append('center_invalid')
+        elif center > self.ultrasonic_max_cm:
+            invalid = True
+            reasons.append('center_over_max')
 
-        if nearest is not None and nearest <= self.obstacle_stop_distance:
+        if center is not None and center < self.ultrasonic_emergency_cm:
+            unsafe = True
+            reasons.append('center_too_close')
+        if center is not None and 0 < center <= self.obstacle_stop_distance:
             unsafe = True
             reasons.append('stop_distance')
 
-        if invalid:
-            if (
-                self._ultra_last_valid_nearest is not None
-                and self._ultra_last_valid_nearest <= self.obstacle_trigger_distance
-                and (now - self._ultra_last_valid_ts) <= 1.0
-            ):
+        if prev_center is not None and center is not None:
+            if abs(center - prev_center) > self.ultrasonic_jump_threshold and prev_center <= self.obstacle_trigger_distance:
+                invalid = True
+                reasons.append('center_jump')
+            if center >= self.ultrasonic_max_cm and prev_center <= self.obstacle_trigger_distance:
+                invalid = True
                 unsafe = True
-                reasons.append('blind_zone')
+                reasons.append('center_max_spike')
 
-        if not invalid and nearest is not None:
-            self._ultra_last_valid_nearest = nearest
-            self._ultra_last_valid_ts = now
+        side_invalid_count = 0
+        for k in ('left', 'right'):
+            v = readings.get(k)
+            if v is None or v <= 0 or v > self.ultrasonic_max_cm:
+                side_invalid_count += 1
+        if side_invalid_count == 2 and (center is None or center <= 0 or center > self.ultrasonic_max_cm):
+            invalid = True
+            reasons.append('all_channels_invalid')
 
-        for key, val in readings.items():
-            self._ultra_prev[key] = val
+        if invalid and (
+            self._ultra_last_valid_nearest is not None
+            and self._ultra_last_valid_nearest <= self.obstacle_trigger_distance
+            and (now - self._ultra_last_valid_ts) <= 1.0
+        ):
+            unsafe = True
+            reasons.append('blind_zone')
 
-        if nearest is not None and nearest <= self.obstacle_trigger_distance and not invalid:
+        for key in ('center', 'left', 'right'):
+            if key in readings:
+                self._ultra_prev[key] = readings[key]
+
+        if nearest is not None and nearest <= self.obstacle_trigger_distance:
             self._ultra_breach_count += 1
         else:
             self._ultra_breach_count = 0
@@ -531,8 +603,15 @@ class AutonomousController:
         obstacle_confirmed = self._ultra_breach_count >= self.obstacle_confirm_reads
         emergency_stop = unsafe or invalid
 
+        # Debug logging for sensor validation
+        try:
+            print(f"[ULTRA] readings={readings} nearest={nearest} invalid={invalid} unsafe={unsafe} reasons={reasons}")
+        except Exception:
+            pass
+
         return {
             'nearest_cm': nearest,
+            'nearest_source': nearest_source,
             'invalid': invalid,
             'unsafe': unsafe,
             'emergency_stop': emergency_stop,
@@ -635,7 +714,7 @@ class AutonomousController:
             self._update_heading_from_imu(snapshot)
 
             # check emergency/gas
-            gas = snapshot.get('gas') or snapshot.get('mq2') or snapshot.get('mq135')
+            gas = snapshot.get('gas') or {}
             # basic hazard detection example
             metal = snapshot.get('metal', {}).get('detected', False) if isinstance(snapshot.get('metal'), dict) else False
             ultrasonic = snapshot.get('ultrasonic_raw') or snapshot.get('ultrasonic', {})
@@ -666,14 +745,24 @@ class AutonomousController:
                         self._sleep_cycle(loop_start)
                         continue
                 else:
-                    self._clear_safety_hold()
+                    self._hard_stop('safety_hold', {'reason': self._safety_reason, 'distance_cm': nearest})
+                    self._sleep_cycle(loop_start)
+                    continue
 
             # power-aware scaling
             self._apply_power_limits(snapshot)
             self._apply_heading_pid()
 
             # Priority handling: gas -> metal -> obstacle -> path
-            if gas and isinstance(gas, dict) and gas.get('status') == 'danger':
+            gas_danger = False
+            if isinstance(gas, dict):
+                if isinstance(gas.get('mq2'), dict) and gas.get('mq2', {}).get('status') == 'danger':
+                    gas_danger = True
+                if isinstance(gas.get('mq135'), dict) and gas.get('mq135', {}).get('status') == 'danger':
+                    gas_danger = True
+                if gas.get('status') == 'danger':
+                    gas_danger = True
+            if gas_danger:
                 # mark and stop
                 gx, gy = self.grid.robot_grid
                 self.events.handle_gas(gx, gy)
@@ -684,30 +773,32 @@ class AutonomousController:
                 self._sleep_cycle(loop_start)
                 continue
 
+            if metal:
+                self._metal_high_count += 1
+            else:
+                self._metal_high_count = 0
             metal_trigger = (
-                metal
-                and not self._last_metal_state
+                self._metal_high_count >= self.metal_confirm_reads
                 and (time.time() - self._last_metal_ts) >= self.metal_drop_cooldown
             )
             self._last_metal_state = metal
             if metal_trigger:
                 self._last_metal_ts = time.time()
+                self._metal_high_count = 0
                 gx, gy = self.grid.robot_grid
                 self.motion.stop()
-                self.events.handle_hazard(gx, gy, pause_seconds=0.0, servo_action=False)
+                self.events.handle_hazard(
+                    gx,
+                    gy,
+                    pause_seconds=float(self.metal_drop_pause),
+                    servo_action=bool(self.servo_enabled),
+                    servo_angle=120
+                )
                 self._remember_hazard(gx, gy)
                 self._log_event('metal_detected', {'grid': [gx, gy]})
-                if self.servo_enabled and self.use_hardware and motor is not None:
-                    try:
-                        time.sleep(self.metal_drop_pause)
-                        motor.pulse_servo(120, duration=0.2)
-                    except Exception:
-                        pass
-                else:
-                    time.sleep(self.metal_drop_pause)
                 self.plan_path()
                 self._snap_robot_to_grid('metal', force=True)
-                self._pause('metal')
+                self._last_progress_ts = time.time()
                 self._sleep_cycle(loop_start)
                 continue
 
@@ -716,20 +807,66 @@ class AutonomousController:
             dynamic_stop = self._dynamic_stop_distance()
             self.last_dynamic_stop_cm = dynamic_stop
 
+            # Preemptive dynamic stop: check dynamic stop threshold but prioritize
+            # strict safety for close obstacles. In this safety-first phase we avoid
+            # automatic replanning and prefer to engage a safety hold when close.
+            gx, gy = self.grid.robot_grid
+            next_wp = None
+            if self.current_path and self.current_waypoint_index < len(self.current_path):
+                next_wp = self.current_path[self.current_waypoint_index]
+
+            if nearest is not None and nearest <= dynamic_stop:
+                self._log_event('preemptive_stop', {'distance_cm': nearest, 'dynamic_stop_cm': dynamic_stop})
+
+                # If within hard stop threshold -> engage safety hold immediately
+                if nearest <= self.obstacle_stop_distance:
+                    try:
+                        self._hard_stop('preemptive_emergency', {'distance_cm': nearest})
+                    except Exception:
+                        pass
+                    self._set_safety_hold('preemptive_emergency', distance_cm=nearest)
+                    self.motion.stop()
+                    self._sleep_cycle(loop_start)
+                    continue
+
+                # Otherwise attempt bypasses (no automatic replanning in safety-first phase)
+                try:
+                    if nearest is not None and nearest > self.obstacle_emergency_distance:
+                        if self._attempt_dwa_bypass((gx, gy), next_wp):
+                            self.motion.stop()
+                            self._sleep_cycle(loop_start)
+                            continue
+                        if self._attempt_micro_avoidance((gx, gy), next_wp):
+                            self.motion.stop()
+                            self._log_event('micro_avoidance', {'grid': [gx, gy], 'preemptive': True})
+                            self._sleep_cycle(loop_start)
+                            continue
+                except Exception:
+                    pass
+
+                # Soft stop (do not replan automatically in safety phase)
+                self.motion.stop()
+                self._sleep_cycle(loop_start)
+                continue
+
             if obstacle_confirmed:
                 # confirm and mark obstacles in front cell
                 gx, gy = self.grid.robot_grid
                 next_wp = None
                 if self.current_path and self.current_waypoint_index < len(self.current_path):
                     next_wp = self.current_path[self.current_waypoint_index]
-                # estimate obstacle at cell ahead (projection to next waypoint)
-                ahead_gx, ahead_gy = self._estimate_ahead_cell(gx, gy, target=next_wp)
+                source = ultra_state.get('nearest_source') or 'center'
+                if source in ('left', 'right'):
+                    ahead_gx, ahead_gy = self._estimate_side_cell(gx, gy, target=next_wp, side=source)
+                else:
+                    ahead_gx, ahead_gy = self._estimate_ahead_cell(gx, gy, target=next_wp)
                 if self.grid.is_valid(ahead_gx, ahead_gy):
                     self.events.handle_obstacle(ahead_gx, ahead_gy)
                     self._remember_obstacle(ahead_gx, ahead_gy)
                     self._log_event('obstacle_detected', {
                         'grid': [ahead_gx, ahead_gy],
                         'distance_cm': nearest,
+                        'sensor': source,
                         'ultrasonic': ultra_state.get('reasons')
                     })
                     now = time.time()
@@ -754,17 +891,25 @@ class AutonomousController:
                 if self.current_path:
                     self._log_event('replan', {'start': [gx, gy], 'goal': list(self.grid.goal or [])})
                 if self.replan_fail_count >= self.replan_fail_limit or self._obstacle_repeat_count >= 3:
-                    self._trigger_fail_safe('replan failed')
+                    self._log_event('replan_degraded', {
+                        'replan_fail_count': self.replan_fail_count,
+                        'repeat_count': self._obstacle_repeat_count
+                    })
+                    self.motion.stop()
+                    self._last_progress_ts = time.time()
                     self._sleep_cycle(loop_start)
                     continue
                 self.motion.stop()
                 self._snap_robot_to_grid('obstacle', force=True)
-                self._pause('obstacle')
+                self._last_progress_ts = time.time()
                 self._sleep_cycle(loop_start)
                 continue
 
             if (time.time() - self._last_progress_ts) > self.no_progress_timeout:
-                self._trigger_fail_safe('no progress')
+                self._log_event('no_progress_replan', {'timeout_s': self.no_progress_timeout})
+                self.plan_path()
+                self._last_progress_ts = time.time()
+                self.motion.stop()
                 self._sleep_cycle(loop_start)
                 continue
 
