@@ -1,0 +1,4 @@
+- Safety guard
+- Motor safety interlock
+- Ultrasonic validation
+- Conservative localization

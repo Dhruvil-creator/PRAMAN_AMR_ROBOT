@@ -1,0 +1,4 @@
+- Left ultrasonic unreliable
+- Occasional collisions
+- Metal sensor intermittent
+- Grid mismatches
