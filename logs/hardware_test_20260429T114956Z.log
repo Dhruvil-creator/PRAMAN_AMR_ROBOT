@@ -1,0 +1,423 @@
+Hardware test started at 20260429T114956Z
+Server already listening on :5000
+Waiting for backend to respond on /status...
+Backend ready: {"autonomous":true,"metal_servo_enabled":true,"mode":"autonomous"}
+Enabling servo-on-metal in autonomous manager
+{"servo_enabled":true}
+Switching to autonomous mode
+{"mode":"autonomous"}
+Setting start (2,7) and goal (15,7)
+{"grid":{"goal":[19,7],"grid":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],"height":15,"start":[2,7],"width":20},"status":"ok"}
+{"grid":{"goal":[15,7],"grid":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],"height":15,"start":[2,7],"width":20},"status":"ok"}
+Requesting path planning...
+{"status":"no_path"}
+Starting autonomous execution...
+{"pause_reason":null,"paused":false,"status":"idle"}
+Status after non-metal obstacle presentation:
+{"autonomous_speed":0.0,"controller":{"current_waypoint":0,"path_length":0,"state":"complete"},"current_waypoint":0,"eta_seconds":null,"event_log":[{"data":{"repeat_count":160,"replan_fail_count":0},"ts":1777457763.0660708,"type":"replan_degraded"},{"data":{"distance_cm":22.11,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.1149726,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.1160057,"type":"replan"},{"data":{"repeat_count":161,"replan_fail_count":0},"ts":1777457763.1160161,"type":"replan_degraded"},{"data":{"distance_cm":22.11,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.1657915,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.166909,"type":"replan"},{"data":{"repeat_count":162,"replan_fail_count":0},"ts":1777457763.1669314,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.2158833,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.2169254,"type":"replan"},{"data":{"repeat_count":163,"replan_fail_count":0},"ts":1777457763.2169356,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.2662475,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.2672837,"type":"replan"},{"data":{"repeat_count":164,"replan_fail_count":0},"ts":1777457763.267297,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.3211627,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.3222494,"type":"replan"},{"data":{"repeat_count":165,"replan_fail_count":0},"ts":1777457763.3222618,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.3713567,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.3725927,"type":"replan"},{"data":{"repeat_count":166,"replan_fail_count":0},"ts":1777457763.37261,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.4214468,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.4225194,"type":"replan"},{"data":{"repeat_count":167,"replan_fail_count":0},"ts":1777457763.4225307,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.471493,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.4725404,"type":"replan"},{"data":{"repeat_count":168,"replan_fail_count":0},"ts":1777457763.4725533,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.5216012,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.5226793,"type":"replan"},{"data":{"repeat_count":169,"replan_fail_count":0},"ts":1777457763.5226912,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.571646,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.572693,"type":"replan"},{"data":{"repeat_count":170,"replan_fail_count":0},"ts":1777457763.5727026,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.6250424,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.6260872,"type":"replan"},{"data":{"repeat_count":171,"replan_fail_count":0},"ts":1777457763.626097,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.6754062,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.6764708,"type":"replan"},{"data":{"repeat_count":172,"replan_fail_count":0},"ts":1777457763.6764817,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.7254686,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.726529,"type":"replan"},{"data":{"repeat_count":173,"replan_fail_count":0},"ts":1777457763.72654,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.7755666,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.7766201,"type":"replan"},{"data":{"repeat_count":174,"replan_fail_count":0},"ts":1777457763.776629,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.825662,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.826728,"type":"replan"},{"data":{"repeat_count":175,"replan_fail_count":0},"ts":1777457763.8267379,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.8757539,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.876937,"type":"replan"},{"data":{"repeat_count":176,"replan_fail_count":0},"ts":1777457763.876958,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.9257987,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.926848,"type":"replan"},{"data":{"repeat_count":177,"replan_fail_count":0},"ts":1777457763.9268594,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.9762268,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.9774814,"type":"replan"},{"data":{"repeat_count":178,"replan_fail_count":0},"ts":1777457763.9774966,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.0263073,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.0273416,"type":"replan"},{"data":{"repeat_count":179,"replan_fail_count":0},"ts":1777457764.0273511,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.0763657,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.077407,"type":"replan"},{"data":{"repeat_count":180,"replan_fail_count":0},"ts":1777457764.077417,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.1264153,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.1274436,"type":"replan"},{"data":{"repeat_count":181,"replan_fail_count":0},"ts":1777457764.127453,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.1773498,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.1784878,"type":"replan"},{"data":{"repeat_count":182,"replan_fail_count":0},"ts":1777457764.1785004,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.227537,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.228676,"type":"replan"},{"data":{"repeat_count":183,"replan_fail_count":0},"ts":1777457764.2286952,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.2775316,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.2786121,"type":"replan"},{"data":{"repeat_count":184,"replan_fail_count":0},"ts":1777457764.2786233,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.3276806,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.3296597,"type":"replan"},{"data":{"repeat_count":185,"replan_fail_count":0},"ts":1777457764.3296757,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.379254,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.3813164,"type":"replan"},{"data":{"repeat_count":186,"replan_fail_count":0},"ts":1777457764.3813448,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.4293358,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.4310682,"type":"replan"},{"data":{"repeat_count":187,"replan_fail_count":0},"ts":1777457764.431094,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.479396,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.4809127,"type":"replan"},{"data":{"repeat_count":188,"replan_fail_count":0},"ts":1777457764.4809258,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.529437,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.5305293,"type":"replan"},{"data":{"repeat_count":189,"replan_fail_count":0},"ts":1777457764.53054,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.5801558,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.5813987,"type":"replan"},{"data":{"repeat_count":190,"replan_fail_count":0},"ts":1777457764.5814106,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.6296613,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.6307397,"type":"replan"},{"data":{"repeat_count":191,"replan_fail_count":0},"ts":1777457764.6307502,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.6797612,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.6808023,"type":"replan"},{"data":{"repeat_count":192,"replan_fail_count":0},"ts":1777457764.6808133,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.7298234,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.7308958,"type":"replan"},{"data":{"repeat_count":193,"replan_fail_count":0},"ts":1777457764.7309058,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.7799273,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.7809973,"type":"replan"},{"data":{"repeat_count":194,"replan_fail_count":0},"ts":1777457764.7810066,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.8308039,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.8323052,"type":"replan"},{"data":{"repeat_count":195,"replan_fail_count":0},"ts":1777457764.832321,"type":"replan_degraded"},{"data":{"reason":"watchdog timeout"},"ts":1777457766.438025,"type":"fail_safe"},{"data":{"timeout_s":6.0},"ts":1777457775.1677349,"type":"no_progress_replan"},{"data":{"reason":"watchdog timeout"},"ts":1777457776.8520234,"type":"fail_safe"},{"data":{"reason":"watchdog timeout"},"ts":1777457780.0537412,"type":"fail_safe"},{"data":{"reason":"watchdog timeout"},"ts":1777457782.2551773,"type":"fail_safe"},{"data":{"timeout_s":6.0},"ts":1777457782.4453812,"type":"no_progress_replan"},{"data":{"reason":"watchdog timeout"},"ts":1777457784.0567586,"type":"fail_safe"},{"data":{"reason":"watchdog timeout"},"ts":1777457785.8579195,"type":"fail_safe"},{"data":{"reason":"watchdog timeout"},"ts":1777457788.25924,"type":"fail_safe"},{"data":{"timeout_s":6.0},"ts":1777457789.3342507,"type":"no_progress_replan"},{"data":{"reason":"watchdog timeout"},"ts":1777457791.0616705,"type":"fail_safe"},{"data":{"reason":"watchdog timeout"},"ts":1777457793.8651528,"type":"fail_safe"},{"data":{"timeout_s":6.0},"ts":1777463430.2147415,"type":"no_progress_replan"},{"data":{"goal":[39,24]},"ts":1777463430.3586547,"type":"mission_complete"}],"grid":{"cell_size_cm":10,"cell_size_m":0.1,"goal":[39,24],"grid":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,5,5,5,2,5,5,5,5,5,5,5,5,2,1,0,0,0,0,0,0,0,0,3,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],"height":50,"robot_grid":[38,25],"robot_world":[1.3,0.0],"start":[5,24],"width":50},"local_planner":{"dwa_attempts":0,"dwa_enabled":true},"localization":{"imu_heading_deg":335.1460485100745,"snap_count":12},"max_speed":75,"memory":{"failed_paths":2,"hazards":0,"obstacles":6},"min_speed":40,"mode":"autonomous","nearest_obstacle_cm":51.73,"obstacle_log":[{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457731.0661776},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457732.0743482},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457733.0849895},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457734.0930076},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457741.3880289},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457742.3900313},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457743.399338},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457744.4010394},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457745.4166403},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457746.4190097},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457748.9869802},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457749.0363343},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457749.0874243},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457749.1377022},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457749.1879416},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457750.6450315},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457750.6958318},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457750.745905},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457751.64677},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457751.697811},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457751.747895},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457751.7979374},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457753.157002},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457753.208451},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457753.2587228},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457753.3102293}],"path":[],"path_trace":[],"pause_reason":null,"paused":false,"power":{"limited":false,"voltage":5.0},"robot_heading_deg":335.1460485100745,"robot_position":[38,25],"safety":{"dynamic_stop_cm":32.0,"hold":false,"micro_avoidance_attempts":14,"reason":null},"sensors":{"gas":{"mq135":{"ppm":103,"raw":3312,"rs":8.31,"status":"safe"},"mq2":{"ppm":185,"raw":3404,"rs":3.51,"status":"safe"}},"imu":{"gyro_z":-0.3},"metal":{"detected":false},"pathfinding":{"enabled":false,"status":"disabled"},"pir":{"alert":false,"value":false},"system":{"cpu":11.4,"temp":39.9,"voltage":5.0},"timestamp":1777463438.2037053,"ultrasonic":{"center":129.59,"left":51.53,"right":126.39,"status":"safe"},"ultrasonic_raw":{"center":129.3,"left":51.9,"right":126.38}},"servo_enabled":true,"status":"complete","timestamp":1777463438.2530437,"total_waypoints":0}
+Recent server.log excerpt:
+[PWM] B ChangeDutyCycle -> 0
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[SAFETY-GUARD] hard stop nearest=None reasons=center_invalid,center_too_close raw={'center': 0.0, 'left': 0.0, 'right': 0.0}
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[SAFETY-GUARD] hard stop nearest=None reasons=center_invalid,center_too_close raw={'center': 0.0, 'left': 0.0, 'right': 0.0}
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[SAFETY-GUARD] hard stop nearest=None reasons=center_invalid,center_too_close raw={'center': 0.0, 'left': 0.0, 'right': 0.0}
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[SAFETY-GUARD] hard stop nearest=None reasons=center_invalid,center_too_close raw={'center': 0.0, 'left': 0.0, 'right': 0.0}
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[SAFETY-GUARD] hard stop nearest=None reasons=center_invalid,center_too_close raw={'center': 0.0, 'left': 0.0, 'right': 0.0}
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[SAFETY-GUARD] hard stop nearest=None reasons=center_invalid,center_too_close raw={'center': 0.0, 'left': 0.0, 'right': 0.0}
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOPStatus after metal presentation:
+{"autonomous_speed":0.0,"controller":{"current_waypoint":0,"path_length":0,"state":"complete"},"current_waypoint":0,"eta_seconds":null,"event_log":[{"data":{"repeat_count":160,"replan_fail_count":0},"ts":1777457763.0660708,"type":"replan_degraded"},{"data":{"distance_cm":22.11,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.1149726,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.1160057,"type":"replan"},{"data":{"repeat_count":161,"replan_fail_count":0},"ts":1777457763.1160161,"type":"replan_degraded"},{"data":{"distance_cm":22.11,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.1657915,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.166909,"type":"replan"},{"data":{"repeat_count":162,"replan_fail_count":0},"ts":1777457763.1669314,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.2158833,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.2169254,"type":"replan"},{"data":{"repeat_count":163,"replan_fail_count":0},"ts":1777457763.2169356,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.2662475,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.2672837,"type":"replan"},{"data":{"repeat_count":164,"replan_fail_count":0},"ts":1777457763.267297,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.3211627,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.3222494,"type":"replan"},{"data":{"repeat_count":165,"replan_fail_count":0},"ts":1777457763.3222618,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.3713567,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.3725927,"type":"replan"},{"data":{"repeat_count":166,"replan_fail_count":0},"ts":1777457763.37261,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.4214468,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.4225194,"type":"replan"},{"data":{"repeat_count":167,"replan_fail_count":0},"ts":1777457763.4225307,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.471493,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.4725404,"type":"replan"},{"data":{"repeat_count":168,"replan_fail_count":0},"ts":1777457763.4725533,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.5216012,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.5226793,"type":"replan"},{"data":{"repeat_count":169,"replan_fail_count":0},"ts":1777457763.5226912,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.571646,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.572693,"type":"replan"},{"data":{"repeat_count":170,"replan_fail_count":0},"ts":1777457763.5727026,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.6250424,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.6260872,"type":"replan"},{"data":{"repeat_count":171,"replan_fail_count":0},"ts":1777457763.626097,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.6754062,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.6764708,"type":"replan"},{"data":{"repeat_count":172,"replan_fail_count":0},"ts":1777457763.6764817,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.7254686,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.726529,"type":"replan"},{"data":{"repeat_count":173,"replan_fail_count":0},"ts":1777457763.72654,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.7755666,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.7766201,"type":"replan"},{"data":{"repeat_count":174,"replan_fail_count":0},"ts":1777457763.776629,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.825662,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.826728,"type":"replan"},{"data":{"repeat_count":175,"replan_fail_count":0},"ts":1777457763.8267379,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.8757539,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.876937,"type":"replan"},{"data":{"repeat_count":176,"replan_fail_count":0},"ts":1777457763.876958,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.9257987,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.926848,"type":"replan"},{"data":{"repeat_count":177,"replan_fail_count":0},"ts":1777457763.9268594,"type":"replan_degraded"},{"data":{"distance_cm":22.18,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457763.9762268,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457763.9774814,"type":"replan"},{"data":{"repeat_count":178,"replan_fail_count":0},"ts":1777457763.9774966,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.0263073,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.0273416,"type":"replan"},{"data":{"repeat_count":179,"replan_fail_count":0},"ts":1777457764.0273511,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.0763657,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.077407,"type":"replan"},{"data":{"repeat_count":180,"replan_fail_count":0},"ts":1777457764.077417,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.1264153,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.1274436,"type":"replan"},{"data":{"repeat_count":181,"replan_fail_count":0},"ts":1777457764.127453,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.1773498,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.1784878,"type":"replan"},{"data":{"repeat_count":182,"replan_fail_count":0},"ts":1777457764.1785004,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.227537,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.228676,"type":"replan"},{"data":{"repeat_count":183,"replan_fail_count":0},"ts":1777457764.2286952,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.2775316,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.2786121,"type":"replan"},{"data":{"repeat_count":184,"replan_fail_count":0},"ts":1777457764.2786233,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.3276806,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.3296597,"type":"replan"},{"data":{"repeat_count":185,"replan_fail_count":0},"ts":1777457764.3296757,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.379254,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.3813164,"type":"replan"},{"data":{"repeat_count":186,"replan_fail_count":0},"ts":1777457764.3813448,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.4293358,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.4310682,"type":"replan"},{"data":{"repeat_count":187,"replan_fail_count":0},"ts":1777457764.431094,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.479396,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.4809127,"type":"replan"},{"data":{"repeat_count":188,"replan_fail_count":0},"ts":1777457764.4809258,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.529437,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.5305293,"type":"replan"},{"data":{"repeat_count":189,"replan_fail_count":0},"ts":1777457764.53054,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.5801558,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.5813987,"type":"replan"},{"data":{"repeat_count":190,"replan_fail_count":0},"ts":1777457764.5814106,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.6296613,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.6307397,"type":"replan"},{"data":{"repeat_count":191,"replan_fail_count":0},"ts":1777457764.6307502,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.6797612,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.6808023,"type":"replan"},{"data":{"repeat_count":192,"replan_fail_count":0},"ts":1777457764.6808133,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.7298234,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.7308958,"type":"replan"},{"data":{"repeat_count":193,"replan_fail_count":0},"ts":1777457764.7309058,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.7799273,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.7809973,"type":"replan"},{"data":{"repeat_count":194,"replan_fail_count":0},"ts":1777457764.7810066,"type":"replan_degraded"},{"data":{"distance_cm":22.25,"grid":[39,26],"sensor":"right","ultrasonic":[]},"ts":1777457764.8308039,"type":"obstacle_detected"},{"data":{"goal":[48,25],"start":[38,25]},"ts":1777457764.8323052,"type":"replan"},{"data":{"repeat_count":195,"replan_fail_count":0},"ts":1777457764.832321,"type":"replan_degraded"},{"data":{"reason":"watchdog timeout"},"ts":1777457766.438025,"type":"fail_safe"},{"data":{"timeout_s":6.0},"ts":1777457775.1677349,"type":"no_progress_replan"},{"data":{"reason":"watchdog timeout"},"ts":1777457776.8520234,"type":"fail_safe"},{"data":{"reason":"watchdog timeout"},"ts":1777457780.0537412,"type":"fail_safe"},{"data":{"reason":"watchdog timeout"},"ts":1777457782.2551773,"type":"fail_safe"},{"data":{"timeout_s":6.0},"ts":1777457782.4453812,"type":"no_progress_replan"},{"data":{"reason":"watchdog timeout"},"ts":1777457784.0567586,"type":"fail_safe"},{"data":{"reason":"watchdog timeout"},"ts":1777457785.8579195,"type":"fail_safe"},{"data":{"reason":"watchdog timeout"},"ts":1777457788.25924,"type":"fail_safe"},{"data":{"timeout_s":6.0},"ts":1777457789.3342507,"type":"no_progress_replan"},{"data":{"reason":"watchdog timeout"},"ts":1777457791.0616705,"type":"fail_safe"},{"data":{"reason":"watchdog timeout"},"ts":1777457793.8651528,"type":"fail_safe"},{"data":{"timeout_s":6.0},"ts":1777463430.2147415,"type":"no_progress_replan"},{"data":{"goal":[39,24]},"ts":1777463430.3586547,"type":"mission_complete"}],"grid":{"cell_size_cm":10,"cell_size_m":0.1,"goal":[39,24],"grid":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,5,5,5,2,5,5,5,5,5,5,5,5,2,1,0,0,0,0,0,0,0,0,3,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],"height":50,"robot_grid":[38,25],"robot_world":[1.3,0.0],"start":[5,24],"width":50},"local_planner":{"dwa_attempts":0,"dwa_enabled":true},"localization":{"imu_heading_deg":335.1460485100745,"snap_count":12},"max_speed":75,"memory":{"failed_paths":2,"hazards":0,"obstacles":6},"min_speed":40,"mode":"autonomous","nearest_obstacle_cm":51.73,"obstacle_log":[{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457731.0661776},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457732.0743482},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457733.0849895},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457734.0930076},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457741.3880289},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457742.3900313},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457743.399338},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457744.4010394},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457745.4166403},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457746.4190097},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457748.9869802},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457749.0363343},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457749.0874243},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457749.1377022},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457749.1879416},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457750.6450315},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457750.6958318},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457750.745905},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457751.64677},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457751.697811},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457751.747895},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457751.7979374},{"distance_cm":null,"reason":"Micro-avoidance","ts":1777457753.157002},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457753.208451},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457753.2587228},{"distance_cm":null,"reason":"Localization snap: obstacle","ts":1777457753.3102293}],"path":[],"path_trace":[],"pause_reason":null,"paused":false,"power":{"limited":false,"voltage":5.0},"robot_heading_deg":335.1460485100745,"robot_position":[38,25],"safety":{"dynamic_stop_cm":32.0,"hold":false,"micro_avoidance_attempts":14,"reason":null},"sensors":{"gas":{"mq135":{"ppm":87,"raw":3058,"rs":4.19,"status":"safe"},"mq2":{"ppm":158,"raw":3261,"rs":2.75,"status":"safe"}},"imu":{"gyro_z":-0.49},"metal":{"detected":false},"pathfinding":{"enabled":false,"status":"disabled"},"pir":{"alert":false,"value":false},"system":{"cpu":9.3,"temp":40.9,"voltage":5.0},"timestamp":1777463441.2249577,"ultrasonic":{"center":130.11,"left":51.8,"right":125.37,"status":"safe"},"ultrasonic_raw":{"center":130.1,"left":51.85,"right":126.47}},"servo_enabled":true,"status":"complete","timestamp":1777463441.3043814,"total_waypoints":0}
+Recent server.log excerpt (post-metal):
+[PWM] B ChangeDutyCycle -> 0
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[SAFETY-GUARD] hard stop nearest=None reasons=center_invalid,center_too_close raw={'center': 0.0, 'left': 0.0, 'right': 0.0}
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[SAFETY-GUARD] hard stop nearest=None reasons=center_invalid,center_too_close raw={'center': 0.0, 'left': 0.0, 'right': 0.0}
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[SAFETY-GUARD] hard stop nearest=None reasons=center_invalid,center_too_close raw={'center': 0.0, 'left': 0.0, 'right': 0.0}
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[SAFETY-GUARD] hard stop nearest=None reasons=center_invalid,center_too_close raw={'center': 0.0, 'left': 0.0, 'right': 0.0}
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[SAFETY-GUARD] hard stop nearest=None reasons=center_invalid,center_too_close raw={'center': 0.0, 'left': 0.0, 'right': 0.0}
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[SAFETY-GUARD] hard stop nearest=None reasons=center_invalid,center_too_close raw={'center': 0.0, 'left': 0.0, 'right': 0.0}
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOP
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[MOTOR] HARD STOP engaged
+[MOTOR] HARD STOP engaged
+[PWM] A ChangeDutyCycle -> 0
+[PWM] B ChangeDutyCycle -> 0
+[OBSTACLE-GUARD] center=0.0 prev=0.0 -> OBSTACLE DETECTED (center_too_close) -> STOPHardware test completed. Logs -> /home/amr/backup_restore/amr_dev/logs/hardware_test_20260429T114956Z.log
+Grid snapshot: /home/amr/backup_restore/amr_dev/logs/grid_20260429T114956Z.json
+Status snapshot: /home/amr/backup_restore/amr_dev/logs/status_20260429T114956Z.json
+To stop autonomous mode: curl -s -H 'Content-Type: application/json' -X POST -d '{"mode":"manual"}' http://127.0.0.1:5000/mode/switch
