@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>PRAMAN AMR Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    background: #0d1117;
+    color: #e6edf3;
+    font-family: Arial;
+    text-align: center;
+}
+
+h2 { margin-top: 20px; }
+
+.slider-container { margin-top: 20px; }
+
+.controller {
+    display: grid;
+    grid-template-columns: repeat(3, 90px);
+    grid-template-rows: repeat(3, 90px);
+    gap: 12px;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+button {
+    font-size: 26px;
+    border-radius: 12px;
+    border: none;
+    background: #21262d;
+    color: white;
+    cursor: pointer;
+}
+
+button:active { background: #30363d; }
+
+.stop { background: #ff4d4d; }
+
+.emergency {
+    margin-top: 20px;
+    width: 300px;
+    height: 60px;
+    font-size: 20px;
+    background: red;
+    border-radius: 12px;
+}
+
+.graph-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.graph-box {
+    background: #161b22;
+    padding: 10px;
+    border-radius: 12px;
+    width: 320px;
+}
+
+canvas { width: 100% !important; }
+
+.alert {
+    font-weight: bold;
+    padding: 8px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>🚀 PRAMAN AMR Dashboard</h2>
+
+<!-- SPEED -->
+<div class="slider-container">
+    <h3>Speed: <span id="speedValue">70</span>%</h3>
+    <input type="range" min="0" max="100" value="70"
+        oninput="updateSpeed(this.value)">
+</div>
+
+<!-- CONTROLS -->
+<div class="controller">
+<div></div>
+<button onmousedown="startCommand('forward')" onmouseup="stopCommand()">⬆️</button>
+<div></div>
+
+<button onmousedown="startCommand('left')" onmouseup="stopCommand()">⬅️</button>
+<button class="stop" onclick="send('stop')">⏹️</button>
+<button onmousedown="startCommand('right')" onmouseup="stopCommand()">➡️</button>
+
+<div></div>
+<button onmousedown="startCommand('backward')" onmouseup="stopCommand()">⬇️</button>
+<div></div>
+</div>
+
+<button class="emergency" onclick="emergencyStop()">🚨 EMERGENCY STOP</button>
+
+<!-- TELEMETRY -->
+<h3>Live Telemetry</h3>
+<p>Gyro: <span id="gyroVal">0</span></p>
+<p>Speed: <span id="speedVal">0</span></p>
+<p>Command: <span id="cmdVal">STOP</span></p>
+
+<!-- ALERT -->
+<div id="alertBox" class="alert"></div>
+
+<!-- RADAR -->
+<h3>🧭 Ultrasonic Radar</h3>
+<canvas id="radar" width="300" height="300" style="background:black;"></canvas>
+
+<!-- SENSOR DATA -->
+<h3>📡 Sensor Data</h3>
+<div id="sensorData">Loading...</div>
+
+<!-- GRAPHS -->
+<div class="graph-container">
+<div class="graph-box">
+<h4>Gyro</h4>
+<canvas id="gyroChart"></canvas>
+</div>
+
+<div class="graph-box">
+<h4>Speed</h4>
+<canvas id="speedChart"></canvas>
+</div>
+
+<div class="graph-box">
+<h4>Gas (PPM)</h4>
+<canvas id="gasChart"></canvas>
+</div>
+</div>
+
+<script>
+/* ---------------- CONTROL ---------------- */
+let interval=null;
+
+function startCommand(cmd){
+    send(cmd);
+    interval=setInterval(()=>send(cmd),120);
+}
+function stopCommand(){
+    clearInterval(interval);
+    send("stop");
+}
+function send(cmd){
+    fetch("/control",{method:"POST",headers:{
+        "Content-Type":"application/x-www-form-urlencoded"
+    },body:"command="+cmd});
+}
+function emergencyStop(){ fetch("/emergency"); }
+
+function updateSpeed(val){
+    document.getElementById("speedValue").innerText=val;
+    fetch("/speed",{method:"POST",headers:{
+        "Content-Type":"application/x-www-form-urlencoded"
+    },body:"speed="+val});
+}
+
+/* ---------------- RADAR ---------------- */
+const ctxR=document.getElementById("radar").getContext("2d");
+
+function color(d){
+    if(d<20) return "red";
+    if(d<50) return "yellow";
+    return "lime";
+}
+
+function drawRadar(us){
+    ctxR.clearRect(0,0,300,300);
+    let cx=150,cy=150;
+
+    ctxR.fillStyle="white";
+    ctxR.beginPath();
+    ctxR.arc(cx,cy,5,0,Math.PI*2);
+    ctxR.fill();
+
+    drawRay(cx,cy,us.center,0);
+    drawRay(cx,cy,us.left,-45);
+    drawRay(cx,cy,us.right,45);
+}
+
+function drawRay(cx,cy,d,a){
+    let len=(d/100)*120;
+    let rad=a*Math.PI/180;
+    let x=cx+len*Math.sin(rad);
+    let y=cy-len*Math.cos(rad);
+
+    ctxR.strokeStyle=color(d);
+    ctxR.lineWidth=3;
+
+    ctxR.beginPath();
+    ctxR.moveTo(cx,cy);
+    ctxR.lineTo(x,y);
+    ctxR.stroke();
+}
+
+/* ---------------- CHARTS ---------------- */
+const gyroData=[],speedData=[],labels=[];
+const mq2Data=[],mq135Data=[];
+
+const gyroChart=new Chart(document.getElementById('gyroChart'),{
+    type:'line',
+    data:{labels,datasets:[{label:'Gyro',data:gyroData}]},
+    options:{animation:false}
+});
+
+const speedChart=new Chart(document.getElementById('speedChart'),{
+    type:'line',
+    data:{labels,datasets:[{label:'Speed',data:speedData}]},
+    options:{animation:false}
+});
+
+const gasChart=new Chart(document.getElementById('gasChart'),{
+    type:'line',
+    data:{labels,datasets:[
+        {label:'MQ2',data:mq2Data},
+        {label:'MQ135',data:mq135Data}
+    ]},
+    options:{animation:false}
+});
+
+/* ---------------- DATA FETCH ---------------- */
+async function update(){
+    const res=await fetch('/sensor-data');
+    const d=await res.json();
+
+    // radar
+    drawRadar(d.ultrasonic);
+
+    // sensor text
+    document.getElementById("sensorData").innerHTML=`
+        MQ2: ${d.gas.mq2.ppm} (${d.gas.mq2.status})<br>
+        MQ135: ${d.gas.mq135.ppm} (${d.gas.mq135.status})<br>
+        PIR: ${d.pir.alert}<br>
+        Metal: ${d.metal.detected}<br>
+        CPU: ${d.system.cpu}% Temp: ${d.system.temp}°C
+    `;
+
+    // alerts
+    let alert="";
+    if(d.pir.alert) alert="⚠️ Motion Detected!";
+    if(d.metal.detected) alert="🚨 Metal Detected!";
+    document.getElementById("alertBox").innerText=alert;
+
+    // gas graph
+    mq2Data.push(d.gas.mq2.ppm);
+    mq135Data.push(d.gas.mq135.ppm);
+    if(mq2Data.length>25){mq2Data.shift();mq135Data.shift();}
+    gasChart.update();
+}
+
+/* ---------------- TELEMETRY ---------------- */
+async function graph(){
+    const res=await fetch('/data');
+    const data=await res.json();
+
+    gyroData.length=0;
+    speedData.length=0;
+    labels.length=0;
+
+    data.forEach((d,i)=>{
+        labels.push(i);
+        gyroData.push(d.gyro_z||0);
+        speedData.push(d.speed||0);
+    });
+
+    gyroChart.update();
+    speedChart.update();
+
+    if(data.length){
+        let last=data[data.length-1];
+        document.getElementById("gyroVal").innerText=last.gyro_z.toFixed(2);
+        document.getElementById("speedVal").innerText=last.speed;
+        document.getElementById("cmdVal").innerText=last.command.toUpperCase();
+    }
+}
+
+/* ---------------- LOOPS ---------------- */
+setInterval(update,1000);
+setInterval(graph,150);
+</script>
+
+</body>
+</html>

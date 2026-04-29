@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRAMAN AMR Dashboard</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io/client-dist/socket.io.min.js"></script>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14'%3E%F0%9F%A4%96%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+    <div class="top-bar">
+        <div class="top-left">
+            <span class="brand">PRAMAN AMR</span>
+            <span class="brand-sub">Mine Detection Robot Control Interface</span>
+        </div>
+        <div class="top-right">
+            <span class="status-pill battery" id="batteryStatus">
+                <span class="status-dot status-ok"></span>
+                Voltage 0V
+            </span>
+            <span class="status-pill" id="topAlertStatus">All systems nominal</span>
+        </div>
+    </div>
+
+    <main class="dashboard-grid">
+        <aside class="panel side-panel control-panel">
+            <div class="panel-header">
+                <h2>Control Panel</h2>
+                <span class="tag">Manual Mode</span>
+            </div>
+            <div class="mode-toggle">
+                <button id="manualMode" class="active">Manual</button>
+                <button id="autoMode">Autonomous</button>
+            </div>
+            
+            <!-- MANUAL MODE CONTROLS -->
+            <div id="manualControls" class="mode-section">
+                <div class="direction-grid">
+                <div class="grid-spacer"></div>
+                <button id="forwardBtn" class="direction-btn up">⬆️</button>
+                <div class="grid-spacer"></div>
+                <button id="leftBtn" class="direction-btn left">⬅️</button>
+                <button id="stopBtn" class="direction-btn stop">⏹️</button>
+                <button id="rightBtn" class="direction-btn right">➡️</button>
+                <div class="grid-spacer"></div>
+                <button id="backwardBtn" class="direction-btn down">⬇️</button>
+                <div class="grid-spacer"></div>
+            </div>
+            <div class="speed-group">
+                <label for="speedRange">Speed <strong><span id="speedValue">70</span>%</strong></label>
+                <input id="speedRange" type="range" min="0" max="100" value="70">
+            </div>
+            <div class="action-grid">
+                <button id="servoOpen">🔄 Servo Action</button>
+                <button id="servoClose">🎯 Servo Center</button>
+                <button id="ledToggle">💡 LED ON</button>
+                <button id="metalToggle" class="metal-toggle">🟢 Metal Detection OFF</button>
+                <div class="servo-status">
+                    <span>Servo: <strong id="servoStatus">75°</strong></span>
+                </div>
+            </div>
+            <button id="emergencyBtn" class="emergency">EMERGENCY STOP</button>
+            </div>
+
+            <!-- AUTONOMOUS MODE CONTROLS -->
+            <div id="autonomousControls" class="mode-section hidden">
+                <div class="panel-header">
+                    <h3 style="margin: 0;">A* Pathfinding</h3>
+                </div>
+                <div class="autonomous-badges">
+                    <span id="modeLockIndicator" class="status-pill small status-lock">Manual enabled</span>
+                    <span id="replanStatusBadge" class="status-pill small status-replan">Idle</span>
+                </div>
+                <div class="grid-controls">
+                    <button id="gridStartBtn" class="grid-tool start"><span class="btn-icon">●</span>Start</button>
+                    <button id="gridGoalBtn" class="grid-tool goal"><span class="btn-icon">●</span>Goal</button>
+                    <button id="gridWallBtn" class="grid-tool wall"><span class="btn-icon">■</span>Wall</button>
+                    <button id="gridClearBtn" class="grid-tool clear"><span class="btn-icon">✕</span>Clear</button>
+                    <button id="gridRecenterBtn" class="grid-tool recenter"><span class="btn-icon">◎</span>Recenter Start</button>
+                </div>
+                <div class="grid-canvas-container" style="height:600px;">
+                    <canvas id="gridCanvas"></canvas>
+                </div>
+                <div class="grid-stats">
+                    <span>Path length: <strong id="pathLength">-</strong></span>
+                    <span>Nodes: <strong id="nodesVisited">-</strong></span>
+                    <span>Position: <strong id="positionValue">-</strong></span>
+                    <span>Heading: <strong id="headingValue">-</strong></span>
+                    <span>Speed: <strong id="autoSpeedValue">-</strong></span>
+                    <span>Obstacle: <strong id="autoObstacleValue">-</strong></span>
+                    <span>ETA: <strong id="etaValue">-</strong></span>
+                    <span id="planStatus">Status: Ready</span>
+                </div>
+                <div class="obstacle-log">
+                    <div class="obstacle-log-header">Obstacle Log</div>
+                    <ul id="obstacleLog"></ul>
+                </div>
+                <div class="autonomous-speed">
+                    <div class="autonomous-speed-row">
+                        <label for="autoSpeedMin">Auto Speed Min</label>
+                        <strong id="autoSpeedMinValue">35</strong>
+                    </div>
+                    <input id="autoSpeedMin" type="range" min="0" max="100" value="35">
+                    <div class="autonomous-speed-row">
+                        <label for="autoSpeedMax">Auto Speed Max</label>
+                        <strong id="autoSpeedMaxValue">70</strong>
+                    </div>
+                    <input id="autoSpeedMax" type="range" min="0" max="100" value="70">
+                </div>
+                <div class="autonomous-actions">
+                    <button id="planPathBtn" class="action-btn plan">▶ Plan Path</button>
+                    <button id="executePathBtn" class="action-btn execute">▶ Execute</button>
+                    <button id="resumeAutoBtn" class="action-btn execute">⏵ Resume</button>
+                    <button id="stopAutoBtn" class="action-btn stop">⏹ Stop</button>
+                    <button id="openFullGridBtn" class="action-btn">Open Full Grid</button>
+                </div>
+            </div>
+        </aside>
+
+        <section class="panel main-panel">
+            <div class="status-cards">
+                <div class="status-card">
+                    <span>Command</span>
+                    <strong id="commandStatus">STOP</strong>
+                </div>
+                <div class="status-card">
+                    <span>Speed</span>
+                    <strong id="speedStatus">70%</strong>
+                </div>
+                <div class="status-card">
+                    <span>Gyro Z</span>
+                    <strong id="gyroStatus">0.00</strong>
+                    <div id="gyroDirection" style="font-size: 0.85rem; color: #8ea0b8; margin-top: 4px;">⊙ STABLE</div>
+                </div>
+                <div class="status-card">
+                    <span>CPU</span>
+                    <strong id="cpuStatus">0%</strong>
+                </div>
+                <div class="status-card">
+                    <span>Temp</span>
+                    <strong id="tempStatus">0°C</strong>
+                </div>
+                <div class="status-card">
+                    <span>Voltage</span>
+                    <strong id="voltageStatus">0V</strong>
+                </div>
+            </div>
+            <div id="alertBanner" class="dashboard-alert">All systems nominal</div>
+            <div class="data-status">
+                <span>Last update: <strong id="lastUpdate">Never</strong></span>
+                <div class="connection-indicator" id="connectionStatus">
+                    <span id="connectionText">Connected</span>
+                    <span class="status-dot status-ok"></span>
+                </div>
+            </div>
+            <div class="main-row">
+                <div class="chart-panel radar-panel">
+                    <div class="panel-title">Ultrasonic Radar</div>
+                    <canvas id="radarCanvas" width="300" height="300"></canvas>
+                    <div class="radar-legend">
+                        <div class="legend-item">
+                            <span class="legend-color safe"></span>
+                            <span>Safe (>50cm)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color near"></span>
+                            <span>Near (20-50cm)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color danger"></span>
+                            <span>Danger (<20cm)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sensor-panel">
+                    <div class="sensor-card gas-card">
+                        <h3>MQ2 (LPG/Smoke)</h3>
+                        <div class="sensor-values">
+                            <p id="mq2Value">0 ppm</p>
+                            <span class="sensor-detail" id="mq2Raw">Raw: 0</span>
+                            <span class="sensor-detail" id="mq2Voltage">Voltage: 0.00V</span>
+                        </div>
+                        <div class="sensor-status" id="mq2Status">Safe</div>
+                    </div>
+                    <div class="sensor-card gas-card">
+                        <h3>MQ135 (Air Quality)</h3>
+                        <div class="sensor-values">
+                            <p id="mq135Value">0 ppm</p>
+                            <span class="sensor-detail" id="mq135Raw">Raw: 0</span>
+                            <span class="sensor-detail" id="mq135Voltage">Voltage: 0.00V</span>
+                        </div>
+                        <div class="sensor-status" id="mq135Status">Safe</div>
+                    </div>
+                    <div class="sensor-card motion-card">
+                        <h3>PIR Motion</h3>
+                        <p id="pirValue">Clear</p>
+                        <div class="motion-indicator" id="pirIndicator"></div>
+                    </div>
+                    <div class="sensor-card metal-card">
+                        <h3>Metal Detector</h3>
+                        <p id="metalValue">No Metal</p>
+                        <div class="metal-indicator" id="metalIndicator"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="analytics-grid">
+                <div class="chart-box">
+                    <h4>Gas Levels Over Time</h4>
+                    <canvas id="gasChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h4>Ultrasonic Distances</h4>
+                    <canvas id="ultrasonicChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h4>IMU Gyro Z</h4>
+                    <canvas id="gyroChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h4>System Metrics</h4>
+                    <canvas id="systemChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <aside class="panel side-panel alert-panel">
+            <div class="camera-card">
+                <div class="camera-card-header">
+                    <span>Camera Feed</span>
+                    <button class="camera-refresh">⟳ Refresh</button>
+                </div>
+                <img id="cameraFeed" class="camera-preview" src="/camera_feed" alt="Live camera feed" />
+            </div>
+            <div class="alert-block danger" id="mineAlert">
+                <strong>MINE DETECTED!</strong>
+                <small id="mineAlertDetail">No threat</small>
+            </div>
+            <div class="alert-block warning" id="gasAlert">
+                <strong>GAS DETECTED!</strong>
+                <small id="gasAlertDetail">No threat</small>
+            </div>
+            <div class="alert-block caution" id="obstacleAlert">
+                <strong>OBSTACLE AHEAD!</strong>
+                <small id="obstacleAlertDetail">No threat</small>
+            </div>
+            <div class="system-footer">
+                <span>System Status</span>
+                <strong>All Systems Normal</strong>
+            </div>
+        </aside>
+    </main>
+
+    <script src="/js/dashboard.js" defer></script>
+    <script src="/js/autonomous.js" defer></script>
+</body>
+</html>

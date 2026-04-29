@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Autonomous — Full Grid</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14'%3E%F0%9F%A4%96%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+    <div class="top-bar">
+        <div class="top-left">
+            <a href="/" class="back-link">← Dashboard</a>
+            <span class="brand">Autonomous — Full Grid</span>
+        </div>
+        <div class="top-right">
+            <button id="openDashboardBtn" class="action-btn">Back</button>
+        </div>
+    </div>
+    <main class="autonomy-page">
+        <section class="panel autonomy-panel">
+            <div class="autonomy-toolbar">
+                <div class="grid-controls">
+                    <button id="gridStartBtn" class="grid-tool start"><span class="btn-icon">●</span>Start</button>
+                    <button id="gridGoalBtn" class="grid-tool goal"><span class="btn-icon">●</span>Goal</button>
+                    <button id="gridWallBtn" class="grid-tool wall"><span class="btn-icon">■</span>Wall</button>
+                    <button id="gridClearBtn" class="grid-tool clear"><span class="btn-icon">✕</span>Clear</button>
+                    <button id="gridRecenterBtn" class="grid-tool recenter"><span class="btn-icon">◎</span>Recenter</button>
+                </div>
+                <div class="autonomy-actions-inline">
+                    <button id="planPathBtn" class="action-btn plan">▶ Plan</button>
+                    <button id="executePathBtn" class="action-btn execute">▶ Execute</button>
+                </div>
+                <div class="autonomy-meta">
+                    <span id="planStatus" class="status-pill small status-replan">Status: -</span>
+                    <span id="toolStatus" class="status-pill small status-lock">Tool: -</span>
+                    <span id="gridMeta" class="status-pill small status-lock">Center: -</span>
+                </div>
+            </div>
+            <div class="grid-canvas-container autonomy-grid-container">
+                <canvas id="gridCanvasFull"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/socket.io/client-dist/socket.io.min.js"></script>
+    <script src="/js/autonomy_ui.js" defer></script>
+</body>
+</html>
